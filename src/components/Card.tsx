@@ -31,9 +31,7 @@ const StyledImage = styled.img`
 `;
 
 const StyledPrice = styled.p`
-  background-color: #fdfa5b;
   margin-top: 40px;
-  border-radius: 15px;
   padding: 0 10px;
   cursor: pointer;
 `;

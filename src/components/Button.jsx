@@ -1,7 +1,5 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import "./Button.css";
-
-export const themeContext = createContext('light');
 
 const Button = () => {
   const [theme, setTheme] = useState("light");

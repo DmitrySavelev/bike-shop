@@ -1,9 +1,15 @@
-import { bikeProducts as products } from "../api";
 import Card from "./Card";
+import styled from "styled-components";
 
-const Cards = () => {
+const StyledDeclaration = styled.div`
+  text-align: center;
+  margin-top: 150px;
+  font-size: 25px;
+`;
+
+const Cards = ({ products }: any) => {
   const getElements = () => {
-    return products.map((p) => {
+    return products.map((p: any) => {
       return (
         <Card
           key={p.id}
@@ -16,7 +22,17 @@ const Cards = () => {
     });
   };
 
-  return <div className="cards-container">{getElements()}</div>;
+  return (
+    <div className="cards-container">
+      {products && products.length > 0 ? (
+        getElements()
+      ) : (
+        <StyledDeclaration>
+          Извините, данных товаров нет в наличии
+        </StyledDeclaration>
+      )}
+    </div>
+  );
 };
 
 export default Cards;
