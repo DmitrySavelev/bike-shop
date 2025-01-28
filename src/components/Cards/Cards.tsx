@@ -1,15 +1,11 @@
-import Card from "./Card";
-import styled from "styled-components";
+import { CardProps, CardsProps, Product } from "@/types";
+import Card from "../Card/Card";
+import { JSX } from "react";
+import { StyledDeclaration } from "./Cards.styles";
 
-const StyledDeclaration = styled.div`
-  text-align: center;
-  margin-top: 150px;
-  font-size: 25px;
-`;
-
-const Cards = ({ products }: any) => {
-  const getElements = () => {
-    return products.map((p: any) => {
+const Cards: React.FC<CardsProps> = ({ products }) => {
+  const getElements = (): JSX.Element[] => {
+    return products.map((p) => {
       return (
         <Card
           key={p.id}

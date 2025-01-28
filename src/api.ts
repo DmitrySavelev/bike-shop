@@ -1,4 +1,6 @@
-const bikeProducts = [
+import { Brand, Category, FiltersApi, Product, Promotion } from "./types";
+
+const bikeProducts: Product[] = [
   {
     id: "b001",
     name: "Mountain Explorer X500",
@@ -430,7 +432,7 @@ const bikeProducts = [
   },
 ];
 
-const categories = [
+const categories: Category[] = [
   {
     id: "cat1",
     name: "Mountain Bikes",
@@ -454,7 +456,7 @@ const categories = [
   },
 ];
 
-const brands = [
+const brands: Brand[] = [
   {
     id: "br1",
     name: "TrekStar",
@@ -475,7 +477,7 @@ const brands = [
   },
 ];
 
-const filters = {
+const filters: FiltersApi = {
   types: ["mountain", "road", "city", "hybrid", "electric"],
   frameSizes: ["XS", "S", "M", "L", "XL"],
   priceRanges: [
@@ -494,7 +496,7 @@ const filters = {
   ],
 };
 
-const promotions = [
+const promotions: Promotion[] = [
   {
     id: "promo1",
     code: "SUMMER2023",

@@ -1,31 +1,15 @@
-import "./Search.css";
-import styled from "styled-components";
+import { FilterKeys, Filters, SearchProps } from "@/types";
+import { StyledSpan, ThemeToggle } from "./Search.styles";
 
-const ThemeToggle = styled.button<{ themeType: string }>`
-  ${({ themeType }) =>
-    themeType === "light"
-      ? `
-          background-color: #c2eced;
-          color: #262621;
-        `
-      : `
-          background-color: #252528;
-          color: #c6e31e;
-        `};
-  padding: 4px;
-  border-radius: 7px;
-  font-weight: bolder;
-`;
-
-const Search = ({ filters, setFilters, setTheme, theme }: any) => {
-  const changeHandler = (key: string, value: any) => {
-    setFilters((prev: any) => {
+const Search = ({ filters, setFilters, setTheme, theme }: SearchProps) => {
+  const changeHandler = (key: FilterKeys, value: any) => {
+    setFilters((prev: Filters) => {
       return { ...prev, [key]: value };
     });
   };
 
-  const changePriceHandler = (e: any) => {
-    setFilters((prev: any) => ({
+  const changePriceHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilters((prev: Filters) => ({
       ...prev,
       priceRange: JSON.parse(e.target.value),
     }));
@@ -38,10 +22,10 @@ const Search = ({ filters, setFilters, setTheme, theme }: any) => {
   return (
     <div>
       <div>
-        <span>Тип:</span>
+        <StyledSpan>Тип:</StyledSpan>
         <label>
           <select
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               changeHandler("type", e.target.value);
             }}
           >
@@ -52,10 +36,10 @@ const Search = ({ filters, setFilters, setTheme, theme }: any) => {
           </select>
         </label>
         <br />
-        <span>Бренд:</span>
+        <StyledSpan>Бренд:</StyledSpan>
         <label>
           <select
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               changeHandler("brand", e.target.value);
             }}
           >
@@ -66,7 +50,7 @@ const Search = ({ filters, setFilters, setTheme, theme }: any) => {
           </select>
         </label>
         <br />
-        <span>Цена:</span>
+        <StyledSpan>Цена:</StyledSpan>
         <label>
           <select onChange={changePriceHandler}>
             <option value={JSON.stringify({ min: 0, max: "Infinity" })}>
@@ -87,10 +71,10 @@ const Search = ({ filters, setFilters, setTheme, theme }: any) => {
           </select>
         </label>
         <br />
-        <span>Размер рамы:</span>
+        <StyledSpan>Размер рамы:</StyledSpan>
         <label>
           <select
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               changeHandler("frameSize", e.target.value);
             }}
           >
@@ -103,18 +87,18 @@ const Search = ({ filters, setFilters, setTheme, theme }: any) => {
         </label>
         <br />
         <label>
-          Только в наличии
+          <StyledSpan>Только в наличии</StyledSpan>
           <input
             type="checkbox"
             checked={filters.inStock}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               changeHandler("inStock", e.target.checked);
             }}
           />
         </label>
       </div>
       <div>
-        <ThemeToggle onClick={changeTheme} themeType={theme}>
+        <ThemeToggle onClick={changeTheme} $themeType={theme}>
           mode {theme}
         </ThemeToggle>
       </div>
