@@ -1,7 +1,7 @@
 import Cards from "../Cards/Cards";
 import Search from "../Search/Search";
 import { bikeProducts } from "../../api";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useState } from "react";
 import { Filters, Product, Theme } from "@/types";
 import { AppContainer } from "./App.styles";
 import {
