@@ -10,6 +10,13 @@ export type FilterKeys = keyof Filters;
 
 export type Theme = "light" | "dark";
 
+export interface CartContentProps {
+  src: string;
+  name: string;
+  id: string;
+  price: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -56,18 +63,21 @@ export interface CardsProps {
 }
 
 export interface CardProps {
+  // handleAdd: (id: string) => void;
   name: string; // Название карточки
   description: string; // Описание
-  price: number | string; // Цена (если она может быть строкой или числом)
+  price: number; // Цена (если она может быть строкой или числом)
   src: string; // Ссылка на изображение
+  rating: number;
+  isNew: boolean;
+  id: string;
 }
 
 export interface SearchProps {
   filters: Filters;
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
-  theme: Theme;
+  setSort: React.Dispatch<React.SetStateAction<string>>;
 }
+
 // Тип для бренда
 export interface Brand {
   id: string;

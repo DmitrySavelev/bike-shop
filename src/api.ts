@@ -499,7 +499,7 @@ const filters: FiltersApi = {
 const promotions: Promotion[] = [
   {
     id: "promo1",
-    code: "SUMMER2023",
+    code: "S", 
     discount: 15,
     minAmount: 50000,
     expiryDate: "2023-08-31",
@@ -507,7 +507,7 @@ const promotions: Promotion[] = [
   },
   {
     id: "promo2",
-    code: "NEWUSER",
+    code: "N",
     discount: 10,
     minAmount: 0,
     expiryDate: null,

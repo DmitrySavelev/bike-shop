@@ -1,22 +1,24 @@
 import { Theme } from "@/types";
 import styled from "styled-components";
 
-export const ThemeToggle = styled.button<{ $themeType: Theme }>`
-  ${({ $themeType: themeType }) =>
-    themeType === "light"
-      ? `
-          background-color: #c2eced;
-          color: #262621;
-        `
-      : `
-          background-color: #252528;
-          color: #c6e31e;
-        `};
-  padding: 4px;
-  border-radius: 7px;
-  font-weight: bolder;
+export const StyledSearch = styled.span`
+  position: fixed;
+  top: 70px;
+  left: 10px;
 `;
 
 export const StyledSpan = styled.span`
   margin-right: 10px;
+`;
+export const StyledLabels = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 0 15px;
+`;
+
+export const StyledLabel = styled.label``;
+
+export const StyledSelect = styled.select`
+  width: 50px;
 `;

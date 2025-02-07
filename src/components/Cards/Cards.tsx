@@ -1,7 +1,7 @@
-import { CardProps, CardsProps, Product } from "@/types";
+import { CardsProps } from "@/types";
 import Card from "../Card/Card";
 import { JSX } from "react";
-import { StyledDeclaration } from "./Cards.styles";
+import { StyledCards, StyledDeclaration } from "./Cards.styles";
 
 const Cards: React.FC<CardsProps> = ({ products }) => {
   const getElements = (): JSX.Element[] => {
@@ -9,17 +9,20 @@ const Cards: React.FC<CardsProps> = ({ products }) => {
       return (
         <Card
           key={p.id}
+          id={p.id}
           name={p.name}
           description={p.description}
           price={p.price}
           src={p.images[0]}
+          rating={p.rating}
+          isNew={p.isNew}
         />
       );
     });
   };
 
   return (
-    <div className="cards-container">
+    <StyledCards>
       {products && products.length > 0 ? (
         getElements()
       ) : (
@@ -27,7 +30,7 @@ const Cards: React.FC<CardsProps> = ({ products }) => {
           Извините, данных товаров нет в наличии
         </StyledDeclaration>
       )}
-    </div>
+    </StyledCards>
   );
 };
 
