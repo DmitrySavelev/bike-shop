@@ -1,3 +1,4 @@
+import { Theme } from "@/types";
 import styled from "styled-components";
 
 export const StyledBack = styled.button`
