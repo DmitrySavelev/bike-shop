@@ -16,7 +16,7 @@ import {
   StyledTotalText,
   StyledTotalValue,
 } from "./CartSideBar.styles";
-import { RootState } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { setPriceWithPromo, setFullPrice } from "@/store/bikeSlice";
 import { useNavigate } from "react-router-dom";
@@ -27,11 +27,15 @@ const CartSideBar = () => {
   const count = useSelector((state: RootState) => state.bikes.count);
   const newPrice = useSelector((state: RootState) => state.bikes.newPrice);
   const totalPrice = useSelector((state: RootState) => state.bikes.totalPrice);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(
+    () => localStorage.getItem("inputValue") || ""
+  );
 
-  const applyPromo = () => dispatch(setPriceWithPromo(inputValue));
+  const applyPromo = () => {
+    dispatch(setPriceWithPromo(inputValue));
+  };
 
   const amountProducts = useSelector((state: RootState) =>
     Object.values(state.bikes.count).reduce((acc, value) => acc + value, 0)
@@ -42,12 +46,19 @@ const CartSideBar = () => {
     applyPromo();
   }, [cart, count]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       applyPromo();
     }
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+    localStorage.setItem("inputValue", e.target.value);
+  };
+
+  const isDisabled = cart.length === 0;
 
   return (
     <StyledContent>
@@ -77,21 +88,22 @@ const CartSideBar = () => {
         </StyledThirdRow>
       </StyledFlex>
       <StyledTextArea
-        onChange={(e) => setInputValue(e.target.value)}
-        type="textarea"
-        onKeyDown={(e) => handleKeyDown(e)}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         value={inputValue}
         placeholder="Введите промокод"
-      ></StyledTextArea>
+        as="textarea"
+      />
       <StyledApplyPromo
         onClick={() => applyPromo()}
         type="button"
-        value="Применить промокод"
+        value="Применить"
       />
       <StyledMakeOrder
         onClick={() => navigate("/order")}
         type="button"
         value="Перейти к оформлению"
+        disabled={isDisabled}
       />
     </StyledContent>
   );

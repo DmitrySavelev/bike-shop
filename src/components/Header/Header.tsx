@@ -9,18 +9,18 @@ import cartIcon from "./../../assets/cart.png";
 import logo from "./../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { toggleTheme } from "@/store/bikeSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const cart = useSelector((state: RootState) => state.bikes.cart);
   const theme = useSelector((state: RootState) => state.bikes.theme);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <StyledHeader>
-      <StyledLogo src={logo} />
+      <StyledLogo src={logo} alt="logo" />
       <StyledThemeToggle
         onClick={() => dispatch(toggleTheme())}
         $themeType={theme}

@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import turnBack from "../../assets/turnBack.png";
 import {
   StyledAllOptions,
@@ -7,15 +7,21 @@ import {
   StyledBackImage,
   StyledButton,
   StyledDeliveryOptions,
+  StyledErrorMessage,
   StyledFlex,
   StyledForm,
   StyledLabel,
+  StyledPayment,
   StyledPersonalInfo,
 } from "./Order.styles";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { validationSchema } from "@/validation";
 
 const Order = () => {
   const navigate = useNavigate();
+  const newPrice = useSelector((state: RootState) => state.bikes.newPrice);
 
   return (
     <StyledForm>
@@ -32,6 +38,7 @@ const Order = () => {
           deliveryMethod: "pickup",
           paymentMethod: "online",
         }}
+        validationSchema={validationSchema}
         onSubmit={async (values) => {
           await new Promise((r) => setTimeout(r, 500));
           alert(JSON.stringify(values, null, 2));
@@ -39,15 +46,29 @@ const Order = () => {
       >
         <Form>
           <StyledFlex>
+            <StyledPayment>
+              К оплате:{" "}
+              {Math.floor(
+                Number(localStorage.getItem("newPrice") || newPrice)
+              ).toLocaleString()}
+              ₽
+            </StyledPayment>
             <StyledPersonalInfo>
               <label htmlFor="name">ФИО</label>
               <Field id="name" name="name" />
+              <StyledErrorMessage name="name" component="div" />
+
               <label htmlFor="email">Email</label>
               <Field id="email" name="email" type="email" />
+              <StyledErrorMessage name="email" component="div" />
+
               <label htmlFor="phone">Номер телефона</label>
               <Field id="phone" name="phone" />
+              <StyledErrorMessage name="phone" component="div" />
+
               <label htmlFor="address">Адрес доставки</label>
               <Field id="address" name="address" />
+              <StyledErrorMessage name="address" component="div" />
             </StyledPersonalInfo>
             <StyledAllOptions>
               <StyledDeliveryOptions
@@ -128,21 +149,3 @@ const Order = () => {
 };
 
 export default Order;
-
-// 3. Оформление заказа
-
-// Форма с валидацией для ввода данных покупателя:
-// ФИО
-// Email
-// Телефон
-// Адрес доставки
-
-// Выбор способа доставки:
-// Самовывоз
-// Курьерская доставка
-// Почта России
-
-// Выбор способа оплаты:
-// Онлайн
-// Наличными при получении
-// Картой при получении

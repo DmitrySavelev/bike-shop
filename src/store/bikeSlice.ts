@@ -25,10 +25,10 @@ const initialState: BikeState = {
     frameSize: "",
     inStock: false,
   },
-  cart: [],
-  count: {},
+  cart: JSON.parse(localStorage.getItem("cart") || "[]"),
+  count: JSON.parse(localStorage.getItem("count") || "{}"),
   totalPrice: 0,
-  newPrice: 0,
+  newPrice: JSON.parse(localStorage.getItem("newPrice") || "0"),
 };
 
 const bikeSlice = createSlice({
@@ -71,17 +71,31 @@ const bikeSlice = createSlice({
         state.cart = state.cart.filter((elem) => elem.id != action.payload.id);
       }
     },
-    removeCart(state, action) {
+    removeCart(state, action: PayloadAction<string>) {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
       delete state.count[action.payload];
     },
-    setCount(state, action) {
-      const { id, delta } = action.payload;
-      if (state.count[id] === undefined) {
-        state.count[id] = 1;
+    // setCount(state, action: PayloadAction<{ id: string; delta: number }>) {
+    //   const { id, delta } = action.payload;
+    //   if (state.count[id] === undefined) {
+    //     state.count[id] = 1;
+    //   }
+    //   state.count[id] = value;
+    //   // state.count[id] = Math.max(0, (state.count[id] || 0) + delta);
+    // },
+    setCount(state, action: PayloadAction<{ id: string; value?: number; delta?: number }>) {
+      const { id, value, delta } = action.payload;
+    
+      if (value !== undefined) {
+        state.count[id] = Math.max(0, value); // Устанавливаем конкретное число
+      } else if (delta !== undefined) {
+        state.count[id] = Math.max(0, (state.count[id] || 0) + delta); // Изменяем текущее значение
       }
-      state.count[id] = Math.max(0, (state.count[id] || 0) + delta);
     },
+    // setCount(state, action: PayloadAction<{ id: string; value: number }>) {
+    //   const { id, value } = action.payload;
+    //   state.count[id] = Math.max(0, value); // Просто устанавливаем значение
+    // },
     setFullPrice(state) {
       let res = state.cart.reduce((sum, product) => {
         if (state.count[product.id] >= 0) {
@@ -101,6 +115,7 @@ const bikeSlice = createSlice({
         ? (state.newPrice =
             state.totalPrice - (state.totalPrice * promo.discount) / 100)
         : (state.newPrice = state.totalPrice);
+      localStorage.setItem("newPrice", state.newPrice.toString());
     },
   },
 });
@@ -112,6 +127,7 @@ export const {
   setCount,
   setFullPrice,
   removeCart,
+
   setPriceWithPromo,
 } = bikeSlice.actions;
 

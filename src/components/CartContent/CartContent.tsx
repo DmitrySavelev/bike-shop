@@ -11,21 +11,33 @@ import {
 } from "./CartContent.styles";
 
 import remove from "../../assets/remove.png";
-import { RootState } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { removeCart, setCount } from "@/store/bikeSlice";
 import { CartContentProps } from "@/types";
+import { useEffect, useState } from "react";
 
 const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
-  const dispatch = useDispatch();
-  const count = useSelector((state: RootState) => state.bikes.count);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const count = useSelector((state: RootState) => state.bikes.count) as {
+    [key: string]: number;
+  };
+
+  const [inputValue, setInputValue] = useState<string>("");
+
+  useEffect(() => {
+    setInputValue(count[id] !== undefined ? String(count[id]) : "0");
+  }, [count[id]]);
 
   const handleCountChange = (id: string, delta: number) => {
-    dispatch(setCount({ id, delta }));
+    const newCount = Math.max(0, (count[id] || 0) + delta);
+    dispatch(setCount({ id, value: newCount }));
+    setInputValue(String(newCount));
   };
 
   return (
     <StyledProduct>
-      <StyledImage src={src} />
+      <StyledImage src={src} alt="image of product" />
       <div>
         <StyledName>{name}</StyledName>
         <StyledButtons>
@@ -34,19 +46,24 @@ const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
           </StyledButton>
           <StyledMiddleInput
             type="number"
+            value={inputValue}
             onChange={(e) => {
-              const newValue: any =
-                e.target.value === ""
-                  ? ""
-                  : Math.max(0, Number(e.target.value));
-              dispatch(
-                setCount({
-                  id: id,
-                  delta: newValue - (count[id] || 1),
-                })
-              );
+              const newValue = e.target.value;
+
+              setInputValue(newValue);
+
+              if (newValue !== "") {
+                dispatch(
+                  setCount({ id, value: Math.max(0, Number(newValue)) })
+                );
+              }
             }}
-            value={count[id] === undefined ? 1 : count[id]}
+            onBlur={() => {
+              if (inputValue === "" || isNaN(Number(inputValue))) {
+                setInputValue("0");
+                dispatch(setCount({ id, value: 0 }));
+              }
+            }}
           />
           <StyledButton onClick={() => handleCountChange(id, +1)}>
             +
@@ -60,40 +77,3 @@ const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
 };
 
 export default CartContent;
-
-//  <StyledImage src={product.src} />
-//             <div>
-//               <StyledName>{product.name}</StyledName>
-//               <StyledButtons>
-//                 <StyledButton onClick={() => handleCountChange(product.id, -1)}>
-//                   -
-//                 </StyledButton>
-//                 <StyledMiddleInput
-//                   type="number"
-//                   onChange={(e) => {
-//                     const newValue: any =
-//                       e.target.value === ""
-//                         ? ""
-//                         : Math.max(0, Number(e.target.value));
-//                     dispatch(
-//                       setCount({
-//                         id: product.id,
-//                         delta: newValue - (count[product.id] || 1),
-//                       })
-//                     );
-//                   }}
-//                   value={
-//                     count[product.id] === undefined ? 1 : count[product.id]
-//                   }
-//                 />
-//                 <StyledButton onClick={() => handleCountChange(product.id, +1)}>
-//                   +
-//                 </StyledButton>
-//               </StyledButtons>
-//             </div>
-
-//             <StyledPrice>{product.price.toLocaleString()} ₽</StyledPrice>
-//             <StyledRemove
-//               src={remove}
-//               onClick={() => dispatch(removeCart(product.id))}
-//             />

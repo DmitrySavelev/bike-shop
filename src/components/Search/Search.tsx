@@ -6,14 +6,19 @@ import {
   StyledSelect,
   StyledSpan,
 } from "./Search.styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setFilter } from "@/store/bikeSlice";
+import { AppDispatch } from "@/store/store";
 
 const Search = ({ filters, setSort }: SearchProps) => {
-  const theme = useSelector((state: any) => state.bikes.theme);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const changeHandler = (key: FilterKeys, value: any) => {
+  const changeHandler = <
+    T extends string | boolean | { min: number; max: number }
+  >(
+    key: FilterKeys,
+    value: T
+  ) => {
     dispatch(setFilter({ key, value }));
   };
 

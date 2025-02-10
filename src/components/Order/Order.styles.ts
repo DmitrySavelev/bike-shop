@@ -1,9 +1,16 @@
+import { ErrorMessage } from "formik";
 import styled from "styled-components";
 
 export const StyledArticle = styled.h1`
-  margin: 30px auto 0;
+  margin: 10px auto 0;
 `;
 
+export const StyledPayment = styled.span`
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+`;
 export const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,7 +20,7 @@ export const StyledFlex = styled.div`
   display: flex;
   flex-direction: column;
   width: 35%;
-  margin: 40px auto 0;
+  margin: 20px auto 0;
   padding: 20px;
   border: 1px solid;
 `;
@@ -73,4 +80,9 @@ export const StyledBack = styled.button`
 export const StyledBackImage = styled.img`
   width: 50px;
   height: 50px;
+`;
+
+export const StyledErrorMessage = styled(ErrorMessage)`
+  color: red;
+  font-size: 12px;
 `;

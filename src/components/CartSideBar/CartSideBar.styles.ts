@@ -58,10 +58,9 @@ export const StyledAmount = styled.span`
 export const StyledTextArea = styled.input`
   resize: none;
   width: 80%;
-  font-size: 0.9vw;
+  font-size: 1.7vw;
   text-align: center;
   height: 30px;
-  font-size: 12px;
   font-weight: 600;
   display: block;
   margin: 0 auto;
@@ -75,6 +74,8 @@ export const StyledApplyPromo = styled.input`
   text-align: center;
   display: block;
   margin: 20px auto 0;
+  font-size: 1.5vw;
+
   &:hover {
     background-color: #c2eced;
   }
@@ -86,7 +87,8 @@ export const StyledMakeOrder = styled.input`
   cursor: pointer;
   display: block;
   margin: 70px auto 0;
-  font-size: 17px;
+  white-space: normal;
+
   &:hover {
     background-color: #c2eced;
   }

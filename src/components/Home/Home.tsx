@@ -21,9 +21,7 @@ const Home = () => {
         : true;
       const matchesPrice =
         product.price >= filters.priceRange.min &&
-        product.price <= filters.priceRange.max
-          ? true
-          : false;
+        product.price <= filters.priceRange.max;
       const matchesFrameSize = filters.frameSize
         ? product.specifications.frameSize.includes(filters.frameSize)
         : true;
