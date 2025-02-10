@@ -14,8 +14,20 @@ interface BikeState {
   newPrice: number;
 }
 
+const getLocalStorageItem = <T>(key: string, defaultValue: T): T => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+};
+
 const initialState: BikeState = {
-  theme: "light",
+  // theme: "light",
+  // theme: JSON.parse(localStorage.getItem("theme") || "light"),
+  theme: getLocalStorageItem<"light" | "dark">("theme", "light"),
+
   bikes: bikeProducts,
   promotions: promotions,
   filters: {
@@ -38,7 +50,9 @@ const bikeSlice = createSlice({
     toggleTheme(state) {
       if (state.theme === "light") {
         state.theme = "dark";
+        localStorage.setItem("theme", JSON.stringify("dark"));
       } else {
+        localStorage.setItem("theme", JSON.stringify("light"));
         state.theme = "light";
       }
     },
@@ -83,9 +97,12 @@ const bikeSlice = createSlice({
     //   state.count[id] = value;
     //   // state.count[id] = Math.max(0, (state.count[id] || 0) + delta);
     // },
-    setCount(state, action: PayloadAction<{ id: string; value?: number; delta?: number }>) {
+    setCount(
+      state,
+      action: PayloadAction<{ id: string; value?: number; delta?: number }>
+    ) {
       const { id, value, delta } = action.payload;
-    
+
       if (value !== undefined) {
         state.count[id] = Math.max(0, value); // Устанавливаем конкретное число
       } else if (delta !== undefined) {

@@ -1,13 +1,21 @@
 import { Theme } from "@/types";
 import styled from "styled-components";
 
-export const StyledHeader = styled.div`
+export const StyledHeader = styled.div<{ $themeType: Theme }>`
   height: 50px;
   background-color: #c2eced;
   display: grid;
   grid-template-columns: 70px 150px 1fr 50px;
   padding-right: 30px;
   align-items: center;
+  ${({ $themeType: themeType }) =>
+    themeType === "light"
+      ? `
+          background-color: #c2eced;
+        `
+      : `
+          background-color: #a2a78d;
+        `};
 `;
 
 export const StyledLogo = styled.img`

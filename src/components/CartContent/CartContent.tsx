@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 
 const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
   const dispatch = useDispatch<AppDispatch>();
-
+  const theme = useSelector((state: RootState) => state.bikes.theme);
   const count = useSelector((state: RootState) => state.bikes.count) as {
     [key: string]: number;
   };
@@ -36,7 +36,7 @@ const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
   };
 
   return (
-    <StyledProduct>
+    <StyledProduct $themeType={theme}>
       <StyledImage src={src} alt="image of product" />
       <div>
         <StyledName>{name}</StyledName>

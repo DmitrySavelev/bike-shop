@@ -18,7 +18,7 @@ export const StyledBackImage = styled.img`
   height: 50px;
 `;
 
-export const StyledProduct = styled.div`
+export const StyledProduct = styled.div<{ $themeType: Theme }>`
   width: 70%;
   background-color: #dbd4d4;
   display: flex;
@@ -26,6 +26,13 @@ export const StyledProduct = styled.div`
   padding: 20px;
   height: 190px;
   margin-left: 20px;
+  ${({ $themeType: themeType }) =>
+    themeType === "light"
+      ? `
+        `
+      : `
+          background-color: #333a4b;
+        `};
 `;
 
 export const StyledArticle = styled.div`

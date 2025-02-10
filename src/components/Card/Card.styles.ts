@@ -10,9 +10,7 @@ export const StyledCard = styled.div`
   align-items: center;
   padding: 10px;
 `;
-export const StyledRatingAndNew = styled.div`
-  
-`;
+export const StyledRatingAndNew = styled.div``;
 export const StyledName = styled.p`
   font-size: 27px;
   font-weight: 500;
@@ -44,13 +42,22 @@ export const StyledPrice = styled.span`
 
 export const StyledRating = styled.span``;
 
-export const StyledCart = styled.img`
+export const StyledCart = styled.img<{ $themeType: Theme }>`
   width: 40px;
   height: 40px;
   cursor: pointer;
-  &:hover{
-    opacity: 0.3
+  &:hover {
+    opacity: 0.3;
   }
+  ${({ $themeType: themeType }) =>
+    themeType === "light"
+      ? `
+      
+        `
+      : `
+      background-color: white;
+      border-radius: 15px;
+        `};
 `;
 
 export const StyledNew = styled.span<{ $themeType: Theme }>`

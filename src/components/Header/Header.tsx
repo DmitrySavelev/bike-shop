@@ -19,9 +19,9 @@ const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <StyledHeader>
+    <StyledHeader $themeType={theme}>
       <StyledLogo src={logo} alt="logo" />
-      <StyledThemeToggle
+      <StyledThemeToggle 
         onClick={() => dispatch(toggleTheme())}
         $themeType={theme}
       >

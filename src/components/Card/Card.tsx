@@ -32,7 +32,6 @@ const Card: React.FC<CardProps> = ({
   const newPrice = useSelector((state: RootState) => state.bikes.newPrice);
   const dispatch = useDispatch<AppDispatch>();
 
-
   const handleAdd = (id: string, name: string, price: number, src: string) => {
     const productExists = cart.some((product) => product.id === id);
     productExists
@@ -41,24 +40,24 @@ const Card: React.FC<CardProps> = ({
 
     let updatedCart;
     let updatedCount: Record<string, number> = { ...count };
-    let updatedNewPrice: number = newPrice; // Инициализируем переменную для обновленной цены
+    let updatedNewPrice: number = newPrice;
 
     if (productExists) {
       updatedCart = cart.filter((product) => product.id !== id);
-      delete updatedCount[id]; // Удаляем счетчик у удаленного товара
+      delete updatedCount[id];
       if (updatedCart.length === 0) {
         updatedNewPrice -= count[id] * price;
       }
     } else {
       updatedCart = [...cart, { id, name, price, src }];
-      updatedCount[id] = (count[id] || 0) + 1; // Если товара не было, добавляем и ставим 1
+      updatedCount[id] = (count[id] || 0) + 1;
       if (cart.length === 0) {
         updatedNewPrice = price;
       }
     }
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     localStorage.setItem("count", JSON.stringify(updatedCount));
-    localStorage.setItem("newPrice", updatedNewPrice.toString()); // Сохраняем newPrice в локальное хранилище
+    localStorage.setItem("newPrice", updatedNewPrice.toString());
   };
 
   const checkId = (id: string) => {
@@ -80,6 +79,7 @@ const Card: React.FC<CardProps> = ({
         <StyledCart
           onClick={() => handleAdd(id, name, price, src)}
           src={checkId(id)}
+          $themeType={theme}
         />
       </StyledPriceAndCart>
     </StyledCard>
