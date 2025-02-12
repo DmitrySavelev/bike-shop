@@ -11,6 +11,7 @@ export const StyledCard = styled.div`
   padding: 10px;
 `;
 export const StyledRatingAndNew = styled.div``;
+
 export const StyledName = styled.p`
   font-size: 27px;
   font-weight: 500;

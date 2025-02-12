@@ -24,10 +24,7 @@ const getLocalStorageItem = <T>(key: string, defaultValue: T): T => {
 };
 
 const initialState: BikeState = {
-  // theme: "light",
-  // theme: JSON.parse(localStorage.getItem("theme") || "light"),
   theme: getLocalStorageItem<"light" | "dark">("theme", "light"),
-
   bikes: bikeProducts,
   promotions: promotions,
   filters: {
