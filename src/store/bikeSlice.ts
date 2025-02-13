@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { bikeProducts } from "../api";
 import { promotions } from "../api";
-import { Product, Filters, Promotion } from "@/types";
+import { Product, Filters, Promotion, ThemeType } from "@/types";
 
 interface BikeState {
-  theme: "light" | "dark";
+  theme: ThemeType;
   bikes: Product[];
   promotions: Promotion[];
   filters: Filters;
@@ -24,7 +24,10 @@ const getLocalStorageItem = <T>(key: string, defaultValue: T): T => {
 };
 
 const initialState: BikeState = {
-  theme: getLocalStorageItem<"light" | "dark">("theme", "light"),
+  theme: getLocalStorageItem<ThemeType.Light | ThemeType.Dark>(
+    "theme",
+    ThemeType.Light
+  ),
   bikes: bikeProducts,
   promotions: promotions,
   filters: {
@@ -45,12 +48,10 @@ const bikeSlice = createSlice({
   initialState,
   reducers: {
     toggleTheme(state) {
-      if (state.theme === "light") {
-        state.theme = "dark";
-        localStorage.setItem("theme", JSON.stringify("dark"));
+      if (state.theme === ThemeType.Light) {
+        state.theme = ThemeType.Dark;
       } else {
-        localStorage.setItem("theme", JSON.stringify("light"));
-        state.theme = "light";
+        state.theme = ThemeType.Light;
       }
     },
     setFilter<K extends keyof Filters>(
@@ -84,16 +85,9 @@ const bikeSlice = createSlice({
     },
     removeCart(state, action: PayloadAction<string>) {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
-      delete state.count[action.payload];
+      let { [action.payload]: _, ...updatedCount } = state.count;
+      state.count = updatedCount;
     },
-    // setCount(state, action: PayloadAction<{ id: string; delta: number }>) {
-    //   const { id, delta } = action.payload;
-    //   if (state.count[id] === undefined) {
-    //     state.count[id] = 1;
-    //   }
-    //   state.count[id] = value;
-    //   // state.count[id] = Math.max(0, (state.count[id] || 0) + delta);
-    // },
     setCount(
       state,
       action: PayloadAction<{ id: string; value?: number; delta?: number }>
@@ -101,15 +95,11 @@ const bikeSlice = createSlice({
       const { id, value, delta } = action.payload;
 
       if (value !== undefined) {
-        state.count[id] = Math.max(0, value); // Устанавливаем конкретное число
+        state.count[id] = Math.max(0, value);
       } else if (delta !== undefined) {
-        state.count[id] = Math.max(0, (state.count[id] || 0) + delta); // Изменяем текущее значение
+        state.count[id] = Math.max(0, (state.count[id] || 0) + delta);
       }
     },
-    // setCount(state, action: PayloadAction<{ id: string; value: number }>) {
-    //   const { id, value } = action.payload;
-    //   state.count[id] = Math.max(0, value); // Просто устанавливаем значение
-    // },
     setFullPrice(state) {
       let res = state.cart.reduce((sum, product) => {
         if (state.count[product.id] >= 0) {
@@ -129,7 +119,6 @@ const bikeSlice = createSlice({
         ? (state.newPrice =
             state.totalPrice - (state.totalPrice * promo.discount) / 100)
         : (state.newPrice = state.totalPrice);
-      localStorage.setItem("newPrice", state.newPrice.toString());
     },
   },
 });

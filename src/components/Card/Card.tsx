@@ -34,23 +34,24 @@ const Card: React.FC<CardProps> = ({
 
   const handleAdd = (id: string, name: string, price: number, src: string) => {
     const productExists = cart.some((product) => product.id === id);
-    productExists
-      ? dispatch(removeCart(id))
-      : dispatch(setCart({ id, name, price, src }));
+    if (productExists) {
+      dispatch(removeCart(id));
+    } else {
+      dispatch(setCart({ id, name, price, src }));
+    }
 
     let updatedCart;
-    let updatedCount: Record<string, number> = { ...count };
+    let { [id]: _, ...updatedCount } = count;
     let updatedNewPrice: number = newPrice;
 
     if (productExists) {
       updatedCart = cart.filter((product) => product.id !== id);
-      delete updatedCount[id];
       if (updatedCart.length === 0) {
         updatedNewPrice -= count[id] * price;
       }
     } else {
       updatedCart = [...cart, { id, name, price, src }];
-      updatedCount[id] = (count[id] || 0) + 1;
+      updatedCount = { ...updatedCount, [id]: (count[id] || 0) + 1 };
       if (cart.length === 0) {
         updatedNewPrice = price;
       }
@@ -60,7 +61,7 @@ const Card: React.FC<CardProps> = ({
     localStorage.setItem("newPrice", updatedNewPrice.toString());
   };
 
-  const checkId = (id: string) => {
+  const checkId = (id: string, cart: { id: string }[]) => {
     const res = cart.some((item) => item.id === id);
     return res ? cartAdded : cartAddIcon;
   };
@@ -78,7 +79,7 @@ const Card: React.FC<CardProps> = ({
         <StyledPrice>Цена: {price} </StyledPrice>
         <StyledCart
           onClick={() => handleAdd(id, name, price, src)}
-          src={checkId(id)}
+          src={checkId(id, cart)}
           $themeType={theme}
         />
       </StyledPriceAndCart>

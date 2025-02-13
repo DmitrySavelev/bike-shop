@@ -36,10 +36,15 @@ const CartSideBar = () => {
   const applyPromo = () => {
     dispatch(setPriceWithPromo(inputValue));
   };
-
+  
   const amountProducts = useSelector((state: RootState) =>
     Object.values(state.bikes.count).reduce((acc, value) => acc + value, 0)
   );
+
+  useEffect(() => {
+    localStorage.setItem("newPrice", newPrice.toString());
+  }, [newPrice]);
+  
 
   useEffect(() => {
     dispatch(setFullPrice());

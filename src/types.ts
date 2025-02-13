@@ -49,7 +49,6 @@ export interface Product {
   category: string[];
 }
 
-// Тип для категории
 export interface Category {
   id: string;
   name: string;
@@ -63,11 +62,10 @@ export interface CardsProps {
 }
 
 export interface CardProps {
-  // handleAdd: (id: string) => void;
-  name: string; // Название карточки
-  description: string; // Описание
-  price: number; // Цена (если она может быть строкой или числом)
-  src: string; // Ссылка на изображение
+  name: string;
+  description: string;
+  price: number;
+  src: string;
   rating: number;
   isNew: boolean;
   id: string;
@@ -78,7 +76,6 @@ export interface SearchProps {
   setSort: React.Dispatch<React.SetStateAction<string>>;
 }
 
-// Тип для бренда
 export interface Brand {
   id: string;
   name: string;
@@ -86,7 +83,6 @@ export interface Brand {
   logo: string;
 }
 
-// Тип для диапазона цен
 export interface PriceRange {
   id: number;
   name: string;
@@ -94,13 +90,11 @@ export interface PriceRange {
   max: number;
 }
 
-// Тип для цвета
 export interface Color {
   name: string;
   hex: string;
 }
 
-// Тип для фильтров
 export interface FiltersApi {
   types: string[];
   frameSizes: string[];
@@ -109,12 +103,16 @@ export interface FiltersApi {
   colors: Color[];
 }
 
-// Тип для акции/промокода
 export interface Promotion {
   id: string;
   code: string;
-  discount: number; // в процентах
-  minAmount: number; // минимальная сумма для применения
-  expiryDate: string | null; // null, если срок действия неограничен
+  discount: number;
+  minAmount: number;
+  expiryDate: string | null;
   description: string;
+}
+
+export enum ThemeType {
+  Light = "light",
+  Dark = "dark",
 }

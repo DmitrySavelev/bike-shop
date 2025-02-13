@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { toggleTheme } from "@/store/bikeSlice";
+import { ThemeType } from "@/types";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,13 +19,19 @@ const Header = () => {
   const theme = useSelector((state: RootState) => state.bikes.theme);
   const dispatch = useDispatch<AppDispatch>();
 
+  const changeThemeClicker = () => {
+    dispatch(toggleTheme());
+    if (theme === ThemeType.Light) {
+      localStorage.setItem("theme", JSON.stringify(ThemeType.Dark));
+    } else {
+      localStorage.setItem("theme", JSON.stringify(ThemeType.Light));
+    }
+  };
+
   return (
     <StyledHeader $themeType={theme}>
       <StyledLogo src={logo} alt="logo" />
-      <StyledThemeToggle 
-        onClick={() => dispatch(toggleTheme())}
-        $themeType={theme}
-      >
+      <StyledThemeToggle onClick={changeThemeClicker} $themeType={theme}>
         mode {theme}
       </StyledThemeToggle>
       <div></div>

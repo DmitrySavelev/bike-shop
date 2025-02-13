@@ -22,6 +22,7 @@ import { validationSchema } from "@/validation";
 const Order = () => {
   const navigate = useNavigate();
   const newPrice = useSelector((state: RootState) => state.bikes.newPrice);
+  const readyPrice = Math.floor(Number(newPrice)).toLocaleString();
 
   return (
     <StyledForm>
@@ -46,13 +47,7 @@ const Order = () => {
       >
         <Form>
           <StyledFlex>
-            <StyledPayment>
-              К оплате:{" "}
-              {Math.floor(
-                Number(localStorage.getItem("newPrice") || newPrice)
-              ).toLocaleString()}
-              ₽
-            </StyledPayment>
+            <StyledPayment>К оплате: {readyPrice} ₽</StyledPayment>
             <StyledPersonalInfo>
               <label htmlFor="name">ФИО</label>
               <Field id="name" name="name" />

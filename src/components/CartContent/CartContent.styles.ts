@@ -1,4 +1,4 @@
-import { Theme } from "@/types";
+import { Theme, ThemeType } from "@/types";
 import styled from "styled-components";
 
 export const StyledBack = styled.button`
@@ -28,12 +28,7 @@ export const StyledProduct = styled.div<{ $themeType: Theme }>`
   height: 190px;
   margin-left: 20px;
   ${({ $themeType: themeType }) =>
-    themeType === "light"
-      ? `
-        `
-      : `
-          background-color: #333a4b;
-        `};
+    themeType === ThemeType.Dark && "background-color: #333a4b;"};
 `;
 
 export const StyledArticle = styled.div`

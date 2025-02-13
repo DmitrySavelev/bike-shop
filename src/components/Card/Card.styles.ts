@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Theme } from "@/types";
+import { Theme, ThemeType } from "@/types";
 
 export const StyledCard = styled.div`
   width: 30%;
@@ -51,14 +51,7 @@ export const StyledCart = styled.img<{ $themeType: Theme }>`
     opacity: 0.3;
   }
   ${({ $themeType: themeType }) =>
-    themeType === "light"
-      ? `
-      
-        `
-      : `
-      background-color: white;
-      border-radius: 15px;
-        `};
+    themeType === ThemeType.Dark && "background-color: white; border-radius: 15px;"};
 `;
 
 export const StyledNew = styled.span<{ $themeType: Theme }>`
@@ -67,12 +60,6 @@ export const StyledNew = styled.span<{ $themeType: Theme }>`
   margin-left: 15px;
   padding: 5px;
   border-radius: 20px;
-  ${({ $themeType: themeType }) =>
-    themeType === "light"
-      ? `
-        `
-      : `
-      color: black;
-        `};
+  ${({ $themeType: themeType }) => themeType === ThemeType.Dark && " color: black;"};
   min-height: 100vh;
 `;

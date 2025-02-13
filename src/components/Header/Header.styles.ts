@@ -1,4 +1,4 @@
-import { Theme } from "@/types";
+import { Theme, ThemeType } from "@/types";
 import styled from "styled-components";
 
 export const StyledHeader = styled.div<{ $themeType: Theme }>`
@@ -9,13 +9,7 @@ export const StyledHeader = styled.div<{ $themeType: Theme }>`
   padding-right: 30px;
   align-items: center;
   ${({ $themeType: themeType }) =>
-    themeType === "light"
-      ? `
-          background-color: #c2eced;
-        `
-      : `
-          background-color: #a2a78d;
-        `};
+    themeType === ThemeType.Dark && "background-color: #a2a78d;"};
 `;
 
 export const StyledLogo = styled.img`
@@ -37,20 +31,14 @@ export const StyledCartIcon = styled.img`
 `;
 
 export const StyledThemeToggle = styled.button<{ $themeType: Theme }>`
-  ${({ $themeType: themeType }) =>
-    themeType === "light"
-      ? `
-          background-color: #c2eced;
-          color: #262621;
-        `
-      : `
-          background-color: #252528;
-          color: #c6e31e;
-        `};
+  background-color: #c2eced;
+  color: #262621;
   padding: 4px;
   border-radius: 7px;
   font-weight: bolder;
   cursor: pointer;
   width: 100px;
   height: 30px;
+  ${({ $themeType: themeType }) =>
+    themeType === ThemeType.Dark && "background-color: #252528; color: #c6e31e;"};
 `;

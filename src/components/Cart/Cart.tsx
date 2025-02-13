@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   StyledCart,
-  StyledArticle,
+  StyledArticle, 
   StyledBack,
   StyledBackImage,
   StyledAbsentProducts,
@@ -12,11 +12,10 @@ import turnBack from "../../assets/turnBack.png";
 import { RootState } from "@/store/store";
 import CartSideBar from "../CartSideBar/CartSideBar";
 import CartContent from "../CartContent/CartContent";
-import { CartContentProps } from "@/types"; // Добавляем тип
+import { CartContentProps } from "@/types"; 
 
 const Cart = () => {
   const navigate = useNavigate();
-  // const cart = useSelector((state: RootState) => state.bikes.cart) as CartItem[];
   const cart: CartContentProps[] = useSelector((state: RootState) => state.bikes.cart);
 
   return (

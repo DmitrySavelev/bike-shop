@@ -14,7 +14,7 @@ import remove from "../../assets/remove.png";
 import { AppDispatch, RootState } from "@/store/store";
 import { removeCart, setCount } from "@/store/bikeSlice";
 import { CartContentProps } from "@/types";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,6 +35,21 @@ const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
     setInputValue(String(newCount));
   };
 
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    if (newValue !== "") {
+      dispatch(setCount({ id, value: Math.max(0, Number(newValue)) }));
+    }
+  };
+
+  const blurHandler = () => {
+    if (inputValue === "" || isNaN(Number(inputValue))) {
+      setInputValue("0");
+      dispatch(setCount({ id, value: 0 }));
+    }
+  };
+
   return (
     <StyledProduct $themeType={theme}>
       <StyledImage src={src} alt="image of product" />
@@ -47,23 +62,8 @@ const CartContent: React.FC<CartContentProps> = ({ src, name, id, price }) => {
           <StyledMiddleInput
             type="number"
             value={inputValue}
-            onChange={(e) => {
-              const newValue = e.target.value;
-
-              setInputValue(newValue);
-
-              if (newValue !== "") {
-                dispatch(
-                  setCount({ id, value: Math.max(0, Number(newValue)) })
-                );
-              }
-            }}
-            onBlur={() => {
-              if (inputValue === "" || isNaN(Number(inputValue))) {
-                setInputValue("0");
-                dispatch(setCount({ id, value: 0 }));
-              }
-            }}
+            onChange={changeHandler}
+            onBlur={blurHandler}
           />
           <StyledButton onClick={() => handleCountChange(id, +1)}>
             +

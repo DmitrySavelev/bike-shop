@@ -11,7 +11,7 @@ export const validationSchema = Yup.object({
     .required("Поле обязательно"),
 
   phone: Yup.string()
-    .transform((value) => value.replace(/\s+/g, "")) // Убираем все пробелы
+    .transform((value) => value.replace(/\s+/g, "")) 
     .matches(/^\+?\d{10,15}$/, "Некорректный номер телефона")
     .required("Поле обязательно"),
 
